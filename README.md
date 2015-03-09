@@ -21,9 +21,13 @@ anyone actually do that? Right now they'll be ignored outright.
 
 ## Installation
 
-Clone the repository, edit the file 'location' to contain a path to
-your cucumber repository, and then run ./main.rb in the repo directory.
-Once it's running, point a decent browser at http://localhost:4567 .
+Clone the repository, run
+
+    bundle install
+
+edit the file 'location' to contain a path to your cucumber repository, and 
+then run ./main.rb in the repo directory.  Once it's running, point a decent 
+browser at http://localhost:4567 .
 
 It's worth noting that if your tests don't currently execute, neither
 will the tool. That means, if for some strange reason, your env.rb requires
