@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-require 'pry'
 require 'sinatra'
 require 'json'
 require 'cucumber'
