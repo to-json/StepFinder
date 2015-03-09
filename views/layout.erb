@@ -1,0 +1,108 @@
+<style>
+body {
+  padding: 40px;
+  background-color: #F9E6F1;
+  color: #A0738C;
+  font-family: helvetica;
+}
+.search-box {
+  background-color: #DAB9CC;
+  padding: 8px;
+  padding-left: 20px;
+  border-radius: 15px;
+  margin-bottom: 12px;
+  box-shadow: 5px 5px 2px #888888;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.result {
+  background-color: #DAB9CC;
+  padding: 8px;
+  margin: 2px;
+  padding-left: 20px;
+  border-radius: 15px;
+  margin-bottom: 12px;
+  box-shadow: 5px 5px 2px #888888;
+}
+.result-path {
+  font-family: monospace;
+}
+.result-content {
+  padding: 5px;
+  margin: 5px;
+  font-family: monospace;
+}
+.result-code-section {
+  padding: 8px;
+  margin: 8px;
+  margin-bottom: 12px;
+  margin-left: 0px;
+  background-color: #F2DDE7;
+  color: #A7778E;
+  border-radius: 10px;
+  box-shadow: 3px 3px 1px #888888;
+}
+.result-transform-section {
+  padding: 8px;
+  margin: 8px;
+  margin-bottom: 12px;
+  margin-left: 0px;
+  background-color: #F2DDE7;
+  color: #A7778E;
+  border-radius: 10px;
+  box-shadow: 3px 3px 1px #888888;
+}
+.result-content-line:after {
+  content: '\A';
+  white-space: pre;
+}
+</style>
+
+<div class="search-box">
+<h2>StepFinder</h2>
+<p>Please enter the line you would like to find in our step definition files.</p>
+<form method="post">
+  <input type="text" name="query"/ size="80">
+  <input type="submit" formaction="/search" name="search" value="search" />
+  <input type="submit" formaction="/match" name="match" value="match" />
+</form>
+</div>
+
+<% if @results && !@results.empty? %>
+  <% @results.each do |result| %>
+    <div class="result">
+      <span class="result-regex">
+        <strong><%= result.fetch(:regex) %></strong>
+      </span>
+      <span class="result-path">
+        <em>(at path - <%= result.fetch(:file_source) %>)</em>
+      </span>
+      <div class="result-content">
+        <div class="result-code-section">
+          <pre><%= result.fetch(:code).chomp("\n") %></pre>
+        </div>
+        <% if result[:transforms] && !result[:transforms].empty? %>
+          <div class="result-transforms-section">
+            <% result[:transforms].each do |transform| %>
+              <span class="transform-regex">
+                <p>Transformed by <strong><%= transform.fetch(:regex) %></strong></p>
+              </span>
+              <span class="transform-path">
+                <em>(at path - <%= transform.fetch(:file_source) %>)</em>
+              </span>
+              <div class="result-code-section">
+                <pre><%= transform.fetch(:code).chomp("\n") %></pre>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <div class="result">
+    <p> No results found! </p>
+  </div>
+<% end %>
